@@ -16,6 +16,18 @@ def create_database():
 
         conn.close()
 
+
+def database_insert(first_name, last_name, email, password):
+    conn = sqlite3.connect('users.db')
+    conn.execute("INSERT INTO Data (First_Name,Last_Name,Email,Password)\
+                 VALUES('{}','{}','{}','{}')".format(first_name,last_name,email,password))
+    cursor = conn.execute("SELECT * from Data")
+    for row in cursor:
+        print (row)
+
+    conn.close()
+
+
 def create_table(fields):
     if os.path.isfile('Data.csv'):
         print("File Already Exists!")
@@ -59,6 +71,11 @@ choice = input("Do you wish to use serverless database or CSV file?: ")
 
 if choice == "serverless" or choice == "Serverless":
     create_database()
+    First_Name = input("Enter your first name: ")
+    Last_Name = input("Enter your last name: ")
+    Email = input("Enter your Email ID: ")
+    Password = input("Enter your Password: ")
+    database_insert(First_Name,Last_Name,Email,Password)
 
 elif choice == "CSV" or choice == "csv":
     field_names = ['First_Name', 'Last_Name', 'Email', 'Password']
