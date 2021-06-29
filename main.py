@@ -3,14 +3,18 @@ import os
 import sqlite3
 
 def create_database():
-    conn = sqlite3.connect('users.db')
-    conn.execute('''CREATE TABLE Data
-             (First_Name TEXT NOT NULL,
-             Last_Name TEXT NOT NULL,
-             Email CHAR(50) NOT NULL,
-             Password CHAR(20) NOT NULL);''')
+    if os.path.isfile('users.db'):
+        print ("Database already exists")
 
-    conn.close()
+    else:
+        conn = sqlite3.connect('users.db')
+        conn.execute('''CREATE TABLE Data
+                 (First_Name TEXT NOT NULL,
+                 Last_Name TEXT NOT NULL,
+                 Email CHAR(50) NOT NULL,
+                 Password CHAR(20) NOT NULL);''')
+
+        conn.close()
 
 def create_table(fields):
     if os.path.isfile('Data.csv'):
@@ -54,7 +58,7 @@ def credential(user, password, acc):
 choice = input("Do you wish to use serverless database or CSV file?: ")
 
 if choice == "serverless" or choice == "Serverless":
-    print ('serverless')
+    create_database()
 
 elif choice == "CSV" or choice == "csv":
     field_names = ['First_Name', 'Last_Name', 'Email', 'Password']
