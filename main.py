@@ -1,6 +1,16 @@
 import csv
 import os
+import sqlite3
 
+def create_database():
+    conn = sqlite3.connect('users.db')
+    conn.execute('''CREATE TABLE Data
+             (First_Name TEXT NOT NULL,
+             Last_Name TEXT NOT NULL,
+             Email CHAR(50) NOT NULL,
+             Password CHAR(20) NOT NULL);''')
+
+    conn.close()
 
 def create_table(fields):
     if os.path.isfile('Data.csv'):
@@ -41,21 +51,28 @@ def credential(user, password, acc):
         print ('Access Denied!')
 
 
-field_names = ['First_Name', 'Last_Name', 'Email', 'Password']
-access = 0
+choice = input("Do you wish to use serverless database or CSV file?: ")
 
-create_table(field_names)
+if choice == "serverless" or choice == "Serverless":
+    print ('serverless')
 
-First_Name = input("Enter your first name: ")
-Last_Name = input("Enter your last name: ")
-Email = input("Enter your Email ID: ")
-Password = input("Enter your Password: ")
+elif choice == "CSV" or choice == "csv":
+    field_names = ['First_Name', 'Last_Name', 'Email', 'Password']
+    access = 0
+    create_table(field_names)
 
-email(First_Name, Last_Name, Email, Password, field_names)
+    First_Name = input("Enter your first name: ")
+    Last_Name = input("Enter your last name: ")
+    Email = input("Enter your Email ID: ")
+    Password = input("Enter your Password: ")
 
+    email(First_Name, Last_Name, Email, Password, field_names)
 
-print("*********************Login**************************")
-user = input('Enter username/email: ')
-password = input('Enter password: ')
+    print("*********************Login**************************")
+    user = input('Enter username/email: ')
+    password = input('Enter password: ')
 
-credential(user, password, access)
+    credential(user, password, access)
+
+else:
+    print ("Wrong Choice")
